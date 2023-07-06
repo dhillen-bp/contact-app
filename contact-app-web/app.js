@@ -1,19 +1,47 @@
 const express = require("express");
+const expressLayouts = require("express-ejs-layouts");
 const app = express();
 const port = 3000;
 
+// gunakan ejs
+app.set("view engine", "ejs");
+app.use(expressLayouts);
+
 app.get("/", (req, res) => {
-  res.sendFile("./index.html", { root: __dirname });
+  // res.sendFile("./index.html", { root: __dirname });
+
+  const mahasiswa = [
+    // {
+    //   nama: "Sandika Galih",
+    //   email: "sdkglh@mail.com",
+    // },
+    // ,
+    // {
+    //   nama: "Erik Galih",
+    //   email: "erik@mail.com",
+    // },
+  ];
+
+  res.render("index", {
+    layout: "layouts/main-layout",
+    nama: "Dhillen",
+    title: "Home",
+    mahasiswa: mahasiswa,
+  });
 });
 
 app.get("/about", (req, res) => {
-  //   res.send("Halaman About!");
-  res.sendFile("./about.html", { root: __dirname });
+  res.render("about", {
+    layout: "layouts/main-layout",
+    title: "Halaman About",
+  });
 });
 
 app.get("/contact", (req, res) => {
-  //   res.send("Halaman Contact!");
-  res.sendFile("./contact.html", { root: __dirname });
+  res.render("contact", {
+    layout: "layouts/main-layout",
+    title: "Halaman Contact",
+  });
 });
 
 app.get("/product/:id", (req, res) => {
@@ -30,54 +58,3 @@ app.use((req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
-
-// const http = require("http");
-// const fs = require("fs");
-
-// const port = 3000;
-// const host = "127.0.0.1";
-
-// const renderHTML = (path, res) => {
-//   fs.readFile(path, (err, data) => {
-//     if (err) {
-//       res.writeHead(404);
-//       res.write("Error : file not found");
-//     } else {
-//       res.write(data);
-//     }
-//     res.end();
-//   });
-// };
-
-// const server = http.createServer((req, res) => {
-//   res.writeHead(200, {
-//     "Content-Type": "text/html",
-//   });
-
-//   const url = req.url;
-
-//   switch (url) {
-//     case "/about":
-//       renderHTML("./about.html", res);
-//       break;
-//     case "/contact":
-//       renderHTML("./contact.html", res);
-//       break;
-//     default:
-//       renderHTML("./index.html", res);
-//       break;
-//   }
-
-//   //   if (url === "/about") {
-//   //     renderHTML("./about.html", res);
-//   //   } else if (url === "/contact") {
-//   //     renderHTML("./contact.html", res);
-//   //   } else {
-//   //     // res.write("Hello World!");
-//   //     renderHTML("./index.html", res);
-//   //   }
-// });
-
-// server.listen(port, host, () => {
-//   console.log(`Server is listening on port ${port}`);
-// });
