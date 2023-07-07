@@ -13,7 +13,7 @@ if (!fs.existsSync(dataPath)) {
 }
 
 // ambil semua data di contact.json
-const loadContact = () => {
+const loadContacts = () => {
   const fileBuffer = fs.readFileSync("data/contacts.json", "utf8");
   const contacts = JSON.parse(fileBuffer);
 
@@ -22,13 +22,30 @@ const loadContact = () => {
 
 // cari contact berdasarkan nama
 const findContact = (nama) => {
-  const contacts = loadContact();
+  const contacts = loadContacts();
 
   const contact = contacts.find(
     (contact) => contact.nama.toLowerCase() === nama.toLowerCase()
   );
-
   return contact;
 };
 
-module.exports = { loadContact, findContact };
+// menuliskan / menimpa file contacts.json dengan data yg baru
+const saveContacts = (contacts) => {
+  fs.writeFileSync("data/contacts.json", JSON.stringify(contacts));
+};
+
+// menambahkan data contact baru
+const addContact = (contact) => {
+  const contacts = loadContacts();
+  contacts.push(contact);
+  saveContacts(contacts);
+};
+
+// cek nama yang duplikat
+const cekDuplikat = (nama) => {
+  const contacts = loadContacts();
+  return contacts.find((contact) => contact.nama === nama);
+};
+
+module.exports = { loadContacts, findContact, addContact, cekDuplikat };
